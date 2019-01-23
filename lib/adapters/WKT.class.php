@@ -234,7 +234,8 @@ class WKT extends GeoAdapter
     $parts = array();
     switch ($geometry->geometryType()) {
       case 'Point':
-        return $geometry->getX().' '.$geometry->getY();
+        // replace all occurrences of commas with dots, since casting a float to string returns commas as decimal seperator in some locales
+        return str_replace(',', '.', $geometry->getX()).' '.str_replace(',', '.', $geometry->getY());
       case 'LineString':
         foreach ($geometry->getComponents() as $component) {
           $parts[] = $this->extractData($component);
